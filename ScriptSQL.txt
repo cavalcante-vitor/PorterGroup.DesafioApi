@@ -1,0 +1,37 @@
+CREATE TABLE [dbo].[Condominio] (
+    [Id]       VARCHAR (36) NOT NULL,
+    [Nome]     VARCHAR (120)    NOT NULL,
+    [Telefone] VARCHAR (30)     NULL,
+    [EmailSindico]    VARCHAR (120) NULL,
+    CONSTRAINT [PK_Condominio] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+CREATE TABLE [dbo].[Bloco] (
+    [Id]       VARCHAR (36) NOT NULL,
+    [Nome]     VARCHAR (120)    NOT NULL,
+	[CondominioId]     VARCHAR (36)    NOT NULL,
+    CONSTRAINT [PK_Bloco] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Bloco1] FOREIGN KEY ([CondominioId]) REFERENCES [dbo].[Condominio] ([Id])
+);
+
+CREATE TABLE [dbo].[Apartamento] (
+    [Id]     VARCHAR (36) NOT NULL,
+    [Numero] VARCHAR (30)    NOT NULL,
+	[Andar]  VARCHAR (40)    NOT NULL,
+	[BlocoId]     VARCHAR (36)    NOT NULL,
+    CONSTRAINT [PK_Apartamento] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Apartamento1] FOREIGN KEY ([BlocoId]) REFERENCES [dbo].[Bloco] ([Id])
+);
+
+CREATE TABLE [dbo].[Morador] (
+    [Id] VARCHAR (36) NOT NULL,
+    [Nome] VARCHAR (120) NOT NULL,
+	[DataNascimento] DATETIMEOFFSET NULL,
+	[Telefone] VARCHAR (30) NULL,
+	[Cpf] VARCHAR (11) NULL,
+	[Email] VARCHAR (120) NULL,
+	[ApartamentoId] VARCHAR (36)    NOT NULL,
+    CONSTRAINT [PK_Morador] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Morador1] FOREIGN KEY ([ApartamentoId]) REFERENCES [dbo].[Apartamento] ([Id])
+);
